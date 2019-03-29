@@ -19,3 +19,9 @@
     - Visual Studio 2017(2015도 가능하다)
 - ChatClient와 GameClient는 MFC로 구현되어 있어서 포팅하지 않았다(원본 코드를 보기 바란다)
 - 원본 이라는 디렉토리에 원본 코드가 있다.
+  
+  
+  
+## 온라인 게임 서버 프로그래밍 벤치마크(책 예제)
+- 디렉토리: gameServerBenchmark
+- yes24: http://www.yes24.com/Product/Goods/3097854
