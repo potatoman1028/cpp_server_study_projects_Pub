@@ -1,0 +1,41 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: NetworkModule - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPBD.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/NetworkModule.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\Projects\√‚∆«\Source Code\Chapter 8\NetworkModule\Entry.cpp"
+]
+Creating command line "xicl6.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPBD.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPBE.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib syncd.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/NetworkModule.pdb" /debug /machine:I386 /out:"Debug/NetworkModule.exe" /pdbtype:sept 
+".\Debug\Acceptor.obj"
+".\Debug\CompletionHandler.obj"
+".\Debug\Entry.obj"
+".\Debug\Session.obj"
+".\Debug\SessionManager.obj"
+".\Debug\WorkerThread.obj"
+]
+Creating command line "xilink6.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPBE.tmp"
+<h3>Output Window</h3>
+Compiling...
+Entry.cpp
+Linking...
+LINK : warning LNK4098: defaultlib "LIBCMTD" conflicts with use of other libs; use /NODEFAULTLIB:library
+Creating command line "bscmake.exe /nologo /o"Debug/NetworkModule.bsc"  ".\Debug\Acceptor.sbr" ".\Debug\CompletionHandler.sbr" ".\Debug\Entry.sbr" ".\Debug\Session.sbr" ".\Debug\SessionManager.sbr" ".\Debug\WorkerThread.sbr""
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+NetworkModule.exe - 0 error(s), 1 warning(s)
+</pre>
+</body>
+</html>

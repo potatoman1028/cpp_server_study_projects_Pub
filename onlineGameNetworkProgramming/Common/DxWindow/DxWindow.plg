@@ -1,0 +1,74 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: DxWindow - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1A3.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /Fp"Release/DxWindow.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\Projects\CWICC\Common\DxWindow\Windows\Controls\ButtonCtrl.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\Controls\CheckBoxCtrl.cpp"
+"E:\Projects\CWICC\Common\DxWindow\DirectX\DxDisplay.cpp"
+"E:\Projects\CWICC\Common\DxWindow\DirectX\DxSound.cpp"
+"E:\Projects\CWICC\Common\DxWindow\DirectX\DxSurface.cpp"
+"E:\Projects\CWICC\Common\DxWindow\DxWindowEntry.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\Controls\EditBoxCtrl.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\FontCatalog.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\FrameView.cpp"
+"E:\Projects\CWICC\Common\DxWindow\IME\InputMethodsEditor.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\Controls\IWindowCtrl.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\Controls\ListCtrl.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\Controls\ScrollBarCtrl.cpp"
+"E:\Projects\CWICC\Common\DxWindow\StdAfx.cpp"
+"E:\Projects\CWICC\Common\DxWindow\Windows\Window.cpp"
+]
+Creating command line "xicl6.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1A3.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1A5.tmp" with contents
+[
+/nologo /out:"../Library/DxWindow.lib" 
+.\Release\ButtonCtrl.obj
+.\Release\CheckBoxCtrl.obj
+.\Release\DxDisplay.obj
+.\Release\DxSound.obj
+.\Release\DxSurface.obj
+.\Release\DxWindowEntry.obj
+.\Release\EditBoxCtrl.obj
+.\Release\FontCatalog.obj
+.\Release\FrameView.obj
+.\Release\InputMethodsEditor.obj
+.\Release\IWindowCtrl.obj
+.\Release\ListCtrl.obj
+.\Release\ScrollBarCtrl.obj
+.\Release\StdAfx.obj
+.\Release\Window.obj
+]
+Creating command line "xilink6.exe -lib @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1A5.tmp"
+<h3>Output Window</h3>
+Compiling...
+ButtonCtrl.cpp
+CheckBoxCtrl.cpp
+DxDisplay.cpp
+DxSound.cpp
+DxSurface.cpp
+DxWindowEntry.cpp
+EditBoxCtrl.cpp
+FontCatalog.cpp
+FrameView.cpp
+InputMethodsEditor.cpp
+IWindowCtrl.cpp
+ListCtrl.cpp
+ScrollBarCtrl.cpp
+StdAfx.cpp
+Window.cpp
+Creating library...
+
+
+
+<h3>Results</h3>
+DxWindow.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

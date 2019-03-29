@@ -1,0 +1,35 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Tetris - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP104.tmp" with contents
+[
+ws2_32.lib dxguid.lib ddraw.lib imm32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/Tetris.pdb" /machine:I386 /nodefaultlib:"nafxcw.lib" /out:"Release/Tetris.exe" 
+".\Release\ChildView.obj"
+".\Release\ClientSocket.obj"
+".\Release\DlgLogin.obj"
+".\Release\GameScreen.obj"
+".\Release\MainFrm.obj"
+".\Release\Packet.obj"
+".\Release\StdAfx.obj"
+".\Release\Tetris.obj"
+".\Release\TetrisBoard.obj"
+".\Release\UserInfo.obj"
+".\Release\Tetris.res"
+"\Projects\√‚∆«\Source Code\Chapter 7\Common\Library\DxWindow.lib"
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP104.tmp"
+<h3>Output Window</h3>
+Linking...
+
+
+
+<h3>Results</h3>
+Tetris.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: SyncLib - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP140.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_LIB" /D "_MBCS" /FR"Release/" /Fp"Release/SyncLib.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\pattern\Decorator.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\lang\Exception.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\net\InetAddress.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\util\List.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\lang\Object.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\net\Packet.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\net\ServerSocket.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\pattern\Singleton.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\util\Stack.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\lang\String.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\lang\Synchronized.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\lang\Thread.cpp"
+"E:\Projects\출판\Source Code\Chapter 6\SyncLib\cpp\lang\ThreadManager.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP140.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP141.tmp" with contents
+[
+/nologo /out:"Library\Sync.lib" 
+".\Release\Decorator.obj"
+".\Release\Exception.obj"
+".\Release\InetAddress.obj"
+".\Release\List.obj"
+".\Release\Object.obj"
+".\Release\Packet.obj"
+".\Release\ServerSocket.obj"
+".\Release\Singleton.obj"
+".\Release\Stack.obj"
+".\Release\String.obj"
+".\Release\Synchronized.obj"
+".\Release\Thread.obj"
+".\Release\ThreadManager.obj"
+]
+Creating command line "link.exe -lib @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP141.tmp"
+<h3>Output Window</h3>
+Compiling...
+Decorator.cpp
+Exception.cpp
+InetAddress.cpp
+List.cpp
+Object.cpp
+Packet.cpp
+ServerSocket.cpp
+Singleton.cpp
+Stack.cpp
+String.cpp
+Synchronized.cpp
+Thread.cpp
+ThreadManager.cpp
+Creating library...
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP142.tmp" with contents
+[
+/nologo /o"Release/SyncLib.bsc" 
+".\Release\Decorator.sbr"
+".\Release\Exception.sbr"
+".\Release\InetAddress.sbr"
+".\Release\List.sbr"
+".\Release\Object.sbr"
+".\Release\Packet.sbr"
+".\Release\ServerSocket.sbr"
+".\Release\Singleton.sbr"
+".\Release\Stack.sbr"
+".\Release\String.sbr"
+".\Release\Synchronized.sbr"
+".\Release\Thread.sbr"
+".\Release\ThreadManager.sbr"]
+Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP142.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+Sync.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

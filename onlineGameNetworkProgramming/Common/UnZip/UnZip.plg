@@ -1,0 +1,76 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: UnZip - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP15F.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "ZLIB_DLL" /Fp"Release/UnZip.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\Projects\CWICC\Common\UnZip\Unzip.cpp"
+"E:\Projects\CWICC\Common\UnZip\UnzipFile.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipArchive.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipAutoBuffer.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipBigFile.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipCentralDir.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipException.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipFile.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipFileHeader.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipInternalInfo.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZipStorage.cpp"
+"E:\Projects\CWICC\Common\UnZip\ZUBaseFile.cpp"
+]
+Creating command line "xicl6.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP15F.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP161.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "ZLIB_DLL" /Fp"Release/UnZip.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\Projects\CWICC\Common\UnZip\StdAfx.cpp"
+]
+Creating command line "xicl6.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP161.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP163.tmp" with contents
+[
+/nologo /out:"../Library/Unzip.lib" 
+.\Release\StdAfx.obj
+.\Release\Unzip.obj
+.\Release\UnzipFile.obj
+.\Release\ZipArchive.obj
+.\Release\ZipAutoBuffer.obj
+.\Release\ZipBigFile.obj
+.\Release\ZipCentralDir.obj
+.\Release\ZipException.obj
+.\Release\ZipFile.obj
+.\Release\ZipFileHeader.obj
+.\Release\ZipInternalInfo.obj
+.\Release\ZipStorage.obj
+.\Release\ZUBaseFile.obj
+.\zlib.lib
+]
+Creating command line "xilink6.exe -lib @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP163.tmp"
+<h3>Output Window</h3>
+Compiling...
+StdAfx.cpp
+Compiling...
+Unzip.cpp
+UnzipFile.cpp
+ZipArchive.cpp
+ZipAutoBuffer.cpp
+ZipBigFile.cpp
+ZipCentralDir.cpp
+ZipException.cpp
+ZipFile.cpp
+ZipFileHeader.cpp
+ZipInternalInfo.cpp
+ZipStorage.cpp
+ZUBaseFile.cpp
+Generating Code...
+Creating library...
+
+
+
+<h3>Results</h3>
+Unzip.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

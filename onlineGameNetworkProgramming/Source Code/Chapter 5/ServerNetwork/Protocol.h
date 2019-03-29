@@ -1,0 +1,13 @@
+#ifndef  __Protocol_H
+#define  __Protocol_H
+
+enum ProtocolList
+{
+							PT_CONNECTIONSUCCESS_ACK = 100,
+
+	PT_TESTPACKET1_REQ,		PT_TESTPACKET1_ACK,
+	PT_TESTPACKET2_REQ,		PT_TESTPACKET2_ACK,
+	PT_TESTPACKET3_REQ,		PT_TESTPACKET3_ACK
+};
+
+#endif

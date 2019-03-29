@@ -1,0 +1,55 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: DxWindowTest - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x412 /fo"Release/DxWindowTest.res" /d "NDEBUG" /d "_AFXDLL" "E:\Projects\출판\Source Code\Chapter 7\DxWindowTest\DxWindowTest.rc"" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPF7.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /Fp"Release/DxWindowTest.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\Projects\출판\Source Code\Chapter 7\DxWindowTest\ChildView.cpp"
+"E:\Projects\출판\Source Code\Chapter 7\DxWindowTest\DxWindowTest.cpp"
+"E:\Projects\출판\Source Code\Chapter 7\DxWindowTest\MainFrm.cpp"
+"E:\Projects\출판\Source Code\Chapter 7\DxWindowTest\MainWindow.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPF7.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPF8.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /Fp"Release/DxWindowTest.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\Projects\출판\Source Code\Chapter 7\DxWindowTest\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPF8.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPF9.tmp" with contents
+[
+ddraw.lib dxguid.lib imm32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/DxWindowTest.pdb" /machine:I386 /nodefaultlib:"nafxcw.lib" /nodefaultlib:"libcmt.lib" /out:"Release/DxWindowTest.exe" 
+".\Release\ChildView.obj"
+".\Release\DxWindowTest.obj"
+".\Release\MainFrm.obj"
+".\Release\MainWindow.obj"
+".\Release\StdAfx.obj"
+".\Release\DxWindowTest.res"
+"\Projects\출판\Source Code\Chapter 7\Common\Library\DxWindow.lib"
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPF9.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+ChildView.cpp
+DxWindowTest.cpp
+MainFrm.cpp
+MainWindow.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+DxWindowTest.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
