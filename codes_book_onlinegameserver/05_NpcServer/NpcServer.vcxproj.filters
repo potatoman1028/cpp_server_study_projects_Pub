@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ConnectionManager.cpp" />
+    <ClCompile Include="DetectNpc.cpp" />
+    <ClCompile Include="Fsm.cpp" />
+    <ClCompile Include="IocpNpcServer.cpp" />
+    <ClCompile Include="NormalNpc.cpp" />
+    <ClCompile Include="Npc.cpp" />
+    <ClCompile Include="NpcManager.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="ProcessPacket.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TickThread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConnectionManager.h" />
+    <ClInclude Include="DetectNpc.h" />
+    <ClInclude Include="Fsm.h" />
+    <ClInclude Include="IocpNpcServer.h" />
+    <ClInclude Include="NormalNpc.h" />
+    <ClInclude Include="Npc.h" />
+    <ClInclude Include="NpcDefine.h" />
+    <ClInclude Include="NpcManager.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerManager.h" />
+    <ClInclude Include="ProcessPacket.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TickThread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NpcServer.ini" />
+  </ItemGroup>
+</Project>
