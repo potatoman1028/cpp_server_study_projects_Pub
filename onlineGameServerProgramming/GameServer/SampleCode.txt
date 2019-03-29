@@ -1,0 +1,558 @@
+#include "stdafx.h"
+#include "../NetworkLib/Crypt.h"
+#include "../NetworkLib/CriticalSection.h"
+#include "../NetworkLib/MultiThreadSync.h"
+#include "../NetworkLib/MemoryPool.h"
+#include "../NetworkLib/CircularQueue.h"
+#include "../NetworkLib/Iocp.h"
+#include "../NetworkLib/EventSelect.h"
+#include "../NetworkLib/NetworkSession.h"
+#include "../NetworkLib/PacketSession.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// Iocp Server Test Code
+class CTestSession : public CNetworkSession
+{
+
+};
+
+class CTestUdpClient : public CEventSelect
+{
+private:
+	CTestSession *Session;
+
+public:
+	BOOL Begin(VOID)
+	{
+		Session = new CTestSession();
+		Session->Begin();
+		Session->UdpBind(11550);
+
+		CEventSelect::Begin(Session->GetSocket());
+
+		Session->WriteTo("127.0.0.1", 11550, (BYTE*) "asdf", 4);
+
+		return TRUE;
+	}
+
+	BOOL End(VOID)
+	{
+		Session->End();
+		delete Session;
+
+		CEventSelect::End();
+
+		return TRUE;
+	}
+
+protected:
+	VOID OnIoRead(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoRead\n"));
+
+		BYTE	Data[MAX_BUFFER_LENGTH] = {0,};
+		DWORD	DataLength				= 0;
+
+		Session->ReadFrom(Data, DataLength);
+
+		_tprintf(_T("%s(%d)\n"), Data, DataLength);
+	}
+
+	VOID OnIoWrote(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoWrote\n"));
+	}
+
+	VOID OnIoConnected(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoConnected\n"));
+	}
+
+	VOID OnIoDisconnected(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoDisconnected\n"));
+	}
+};
+
+class CTestTcpClient : public CEventSelect
+{
+private:
+	CTestSession *Session;
+
+public:
+	BOOL Begin(VOID)
+	{
+		Session = new CTestSession();
+		Session->Begin();
+		Session->TcpBind();
+
+		CEventSelect::Begin(Session->GetSocket());
+
+		Session->Connect("127.0.0.1", 11550);
+
+		return TRUE;
+	}
+
+	BOOL End(VOID)
+	{
+		Session->End();
+		delete Session;
+
+		CEventSelect::End();
+
+		return TRUE;
+	}
+
+protected:
+	VOID OnIoRead(VOID)
+	{
+		_tprintf(_T("CLIENT : OnIoRead\n"));
+
+		BYTE	Data[MAX_BUFFER_LENGTH] = {0,};
+		DWORD	DataLength				= 0;
+
+		Session->ReadForEventSelect(Data, DataLength);
+
+		_tprintf(_T("%s(%d)\n"), Data, DataLength);
+	}
+
+	VOID OnIoWrote(VOID)
+	{
+		_tprintf(_T("CLIENT : OnIoWrote\n"));
+	}
+
+	VOID OnIoConnected(VOID)
+	{
+		_tprintf(_T("CLIENT : OnIoConnected\n"));
+		Session->Write((BYTE*) "asdf", 4);
+	}
+
+	VOID OnIoDisconnected(VOID)
+	{
+		_tprintf(_T("CLIENT : OnIoDisconnected\n"));
+	}
+};
+
+class CTestIocp : public CIocp
+{
+private:
+	CTestSession				*ListenSession;
+	std::vector<CTestSession*>	TestSessionVector;
+
+public:
+	BOOL Begin(VOID)
+	{
+		CIocp::Begin();
+
+		ListenSession = new CTestSession;
+		ListenSession->Begin();
+		ListenSession->TcpBind();
+		ListenSession->Listen(11550, 100);
+
+		CIocp::RegisterSocketToIocp(ListenSession->GetSocket(), (ULONG_PTR) this);
+
+		for (INT i=0;i<10;i++)
+		{
+			CTestSession *Session = new CTestSession();
+
+			Session->Begin();
+			Session->Accept(ListenSession->GetSocket());
+
+			TestSessionVector.push_back(Session);
+		}
+
+		return TRUE;
+	}
+
+	BOOL End(VOID)
+	{
+		CIocp::End();
+
+		for (INT i=0;i<10;i++)
+		{
+			CTestSession *Session = (CTestSession*) TestSessionVector[i];
+
+			Session->End();
+
+			delete TestSessionVector[i];
+		}
+
+		TestSessionVector.clear();
+
+		ListenSession->End();
+		delete ListenSession;
+
+		return TRUE;
+	}
+
+protected:
+	VOID OnIoRead(VOID *object, DWORD dataLength)
+	{
+		_tprintf(_T("SERVER : OnIoRead\n"));
+
+		CTestSession *Session = (CTestSession*) object;
+
+		BYTE Data[MAX_BUFFER_LENGTH] = {0,};
+		Session->ReadForIocp(Data, dataLength);
+
+		_tprintf(_T("%s(%d)\n"), Data, dataLength);
+
+		Session->Write(Data, dataLength);
+
+		Session->InitializeReadForIocp();
+	}
+
+	VOID OnIoWrote(VOID *object, DWORD dataLength)
+	{
+		_tprintf(_T("SERVER : OnIoWrote\n"));
+	}
+
+	VOID OnIoConnected(VOID *object)
+	{
+		_tprintf(_T("SERVER : OnIoConnected\n"));
+
+		CTestSession *Session = (CTestSession*) object;
+
+		CIocp::RegisterSocketToIocp(Session->GetSocket(), (ULONG_PTR) Session);
+
+		Session->InitializeReadForIocp();
+	}
+
+	VOID OnIoDisconnected(VOID *object)
+	{
+		_tprintf(_T("SERVER : OnIoDisconnected\n"));
+
+		CTestSession *Session = (CTestSession*) object;
+
+		Session->End();
+		Session->Begin();
+		Session->Accept(ListenSession->GetSocket());
+	}
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	WSADATA WsaData;
+	WSAStartup(MAKEWORD(2, 2), &WsaData);
+
+	CTestIocp *Iocp = new CTestIocp();
+
+	Iocp->Begin();
+
+	_tprintf(_T("Iocp...\n"));
+	getchar();
+
+	CTestTcpClient *TcpClient = new CTestTcpClient();
+	TcpClient->Begin();
+
+	_tprintf(_T("TcpClient...\n"));
+	getchar();
+
+	CTestUdpClient *UdpClient = new CTestUdpClient();
+	UdpClient->Begin();
+
+	_tprintf(_T("UdpClient...\n"));
+	getchar();
+
+	UdpClient->End();
+
+	delete UdpClient;
+
+	TcpClient->End();
+
+	delete TcpClient;
+
+	Iocp->End();
+
+	delete Iocp;
+
+	WSACleanup();
+
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Packet Test Code
+
+class CTestSession : public CPacketSession
+{
+
+};
+
+class CTestUdpClient : public CEventSelect
+{
+private:
+	CTestSession *Session;
+
+public:
+	BOOL Begin(VOID)
+	{
+		Session = new CTestSession();
+		Session->Begin();
+		Session->UdpBind(11550);
+
+		CEventSelect::Begin(Session->GetSocket());
+
+		Session->WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "asdf", 4);
+
+		return TRUE;
+	}
+
+	BOOL End(VOID)
+	{
+		Session->End();
+		delete Session;
+
+		CEventSelect::End();
+
+		return TRUE;
+	}
+
+protected:
+	VOID OnIoRead(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoRead\n"));
+
+		BYTE	Data[MAX_BUFFER_LENGTH] = {0,};
+		DWORD	DataLength				= 0;
+		DWORD	Protocol				= 0;
+
+		Session->ReadPacketForEventSelect(Protocol, Data, DataLength);
+
+		_tprintf(_T("%s(%d)\n"), (LPTSTR)(Data), DataLength);
+	}
+
+	VOID OnIoWrote(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoWrote\n"));
+		
+		Session->WriteComplete();
+	}
+	
+	VOID OnIoConnected(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoConnected\n"));
+	}
+
+	VOID OnIoDisconnected(VOID)
+	{
+		_tprintf(_T("UDP CLIENT : OnIoDisconnected\n"));
+	}
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	WSADATA WsaData;
+	WSAStartup(MAKEWORD(2, 2), &WsaData);
+
+	CTestUdpClient UdpClient;
+
+	UdpClient.Begin();
+
+	getchar();
+
+	UdpClient.End();
+
+	WSACleanup();
+
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// MultiThreadSync Test Code
+
+class CPrint : public CMultiThreadSync<CPrint>
+{
+public:
+	CPrint()
+	{
+
+	}
+
+	~CPrint()
+	{
+
+	}
+
+	VOID Print1(LPTSTR string)
+	{
+		CThreadSync Sync;
+
+		_tprintf(_T("0 %s\n"), string);
+		_tprintf(_T("1 %s\n"), string);
+		_tprintf(_T("2 %s\n"), string);
+		_tprintf(_T("3 %s\n"), string);
+		_tprintf(_T("4 %s\n"), string);
+	}
+
+	VOID Print2(LPTSTR string)
+	{
+		CThreadSync Sync;
+
+		_tprintf(_T("0 %s\n"), string);
+		_tprintf(_T("1 %s\n"), string);
+		_tprintf(_T("2 %s\n"), string);
+		_tprintf(_T("3 %s\n"), string);
+		_tprintf(_T("4 %s\n"), string);
+	}
+};
+
+class CPrintSub : public CPrint
+{
+public:
+	VOID Print1(LPTSTR string)
+	{
+		CThreadSync Sync;
+
+		CPrint::Print1(string);
+	}
+};
+
+static CPrint P1;
+static CPrintSub P2;
+
+DWORD WINAPI ThreadCallback1(LPVOID parameter)
+{
+	for (INT i=0;i<10;i++)
+		P1.Print1(_T("1111"));
+
+	return 0;
+}
+
+DWORD WINAPI ThreadCallback2(LPVOID parameter)
+{
+	for (INT i=0;i<10;i++)
+		P1.Print2(_T("2222"));
+
+	return 0;
+}
+
+DWORD WINAPI ThreadCallback3(LPVOID parameter)
+{
+	for (INT i=0;i<10;i++)
+		P2.Print1(_T("3333"));
+
+	return 0;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	CreateThread(NULL, 0, ::ThreadCallback1, NULL, 0, NULL);
+	CreateThread(NULL, 0, ::ThreadCallback2, NULL, 0, NULL);
+	CreateThread(NULL, 0, ::ThreadCallback3, NULL, 0, NULL);
+
+	getchar();
+
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Client Session Sample
+
+#include "../Common/NetworkLib/Crypt.h"
+#include "../Common/NetworkLib/CriticalSection.h"
+#include "../Common/NetworkLib/MultiThreadSync.h"
+#include "../Common/NetworkLib/MemoryPool.h"
+#include "../Common/NetworkLib/CircularQueue.h"
+#include "../Common/NetworkLib/Iocp.h"
+#include "../Common/NetworkLib/EventSelect.h"
+#include "../Common/NetworkLib/NetworkSession.h"
+#include "../Common/NetworkLib/PacketSession.h"
+#include "../Common/NetworkLib/ClientSession.h"
+
+class CTestClientSession : public CClientSession
+{
+protected:
+	VOID OnIoConnected(VOID){}
+	VOID OnIoDisconnected(VOID){}
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	WSADATA WsaData;
+	WSAStartup(MAKEWORD(2, 2), &WsaData);
+
+	CTestClientSession ClientSession;
+
+	ClientSession.BeginUdp(11550);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "1234", 4);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "5678", 4);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "9012", 4);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "3456", 4);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "7890", 4);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "1234", 4);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "5678", 4);
+	ClientSession.WriteToPacket("127.0.0.1", 11550, 100, (BYTE*) "9012", 4);
+
+	DWORD	Protocol					= 0;
+	CHAR	RemoteAddress[32]			= {0,};
+	USHORT	RemotePort					= 0;
+	BYTE	Packet[MAX_BUFFER_LENGTH]	= {0,};
+	DWORD	PacketLength				= 0;
+
+	getchar();
+
+	while (ClientSession.ReadFromPacket(Protocol, RemoteAddress, RemotePort, Packet, PacketLength))
+	{
+		printf("[%d] [%s(%d)] %c%c%c%c (%d)\n", Protocol, RemoteAddress, RemotePort, Packet[0], Packet[1], Packet[2], Packet[3], PacketLength);
+	}
+
+	getchar();
+
+	ClientSession.End();
+
+	WSACleanup();
+
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// ADO Test
+
+#include "../Common/NetworkLib/CriticalSection.h"
+#include "../Common/NetworkLib/MultiThreadSync.h"
+#include "../Common/NetworkLib/CircularQueue.h"
+#include "../Common/NetworkLib/AdoSession.h"
+#include "../Common/NetworkLib/AdoSessionPool.h"
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	CoInitialize(NULL);
+
+	CAdoSessionPool AdoSessionPool;
+
+	AdoSessionPool.Begin(1, _T("10.20.6.79"), _T("xogupigu"), _T("xogupigu"));
+
+	CAdoSession *AdoSession = AdoSessionPool.GetFreeSession();
+
+	_RecordsetPtr RecordSet = AdoSession->Execute(_T("select * from [USER]"));
+
+	_variant_t	data;
+	TCHAR		*data1 = NULL;
+	while (!RecordSet->GetEndOfFile())
+	{
+		data = RecordSet->GetCollect(_T("user_id"));
+
+		_tprintf(_T("%s"), (LPTSTR)(_bstr_t) data);
+
+		RecordSet->MoveNext();
+	}
+
+	AdoSession->ExecuteFinish();
+
+	getchar();
+
+	AdoSessionPool.End();
+
+	CoUninitialize();
+}
+
+////////////////////////////////////////////////////////////////////////////////
